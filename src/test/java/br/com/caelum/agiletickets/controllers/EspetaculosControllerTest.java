@@ -42,7 +42,7 @@ public class EspetaculosControllerTest {
 		Espetaculo espetaculo = new Espetaculo();
 		espetaculo.setDescricao("uma descricao");
 
-		controller.adiciona(espetaculo);
+		controller.adicionaEspetaculo(espetaculo);
 
 		verifyZeroInteractions(agenda);
 	}
@@ -52,7 +52,7 @@ public class EspetaculosControllerTest {
 		Espetaculo espetaculo = new Espetaculo();
 		espetaculo.setNome("um nome");
 
-		controller.adiciona(espetaculo);
+		controller.adicionaEspetaculo(espetaculo);
 
 		verifyZeroInteractions(agenda);
 	}
@@ -63,7 +63,7 @@ public class EspetaculosControllerTest {
 		espetaculo.setNome("um nome");
 		espetaculo.setDescricao("uma descricao");
 
-		controller.adiciona(espetaculo);
+		controller.adicionaEspetaculo(espetaculo);
 
 		verify(agenda).cadastra(espetaculo);
 	}
@@ -81,7 +81,7 @@ public class EspetaculosControllerTest {
 	public void naoDeveReservarZeroIngressos() throws Exception {
 		when(agenda.sessao(1234l)).thenReturn(new Sessao());
 
-		controller.reserva(1234l, 0);
+		controller.reservaLugaresNaSessao(1234l, 0);
 
 		verifyZeroInteractions(result);
 	}
@@ -93,7 +93,7 @@ public class EspetaculosControllerTest {
 
 		when(agenda.sessao(1234l)).thenReturn(sessao);
 
-		controller.reserva(1234l, 5);
+		controller.reservaLugaresNaSessao(1234l, 5);
 
 		verifyZeroInteractions(result);
 	}
@@ -105,7 +105,7 @@ public class EspetaculosControllerTest {
 
 		when(agenda.sessao(1234l)).thenReturn(sessao);
 
-		controller.reserva(1234l, 3);
+		controller.reservaLugaresNaSessao(1234l, 3);
 
 		assertThat(sessao.getIngressosDisponiveis(), is(2));
 	}
