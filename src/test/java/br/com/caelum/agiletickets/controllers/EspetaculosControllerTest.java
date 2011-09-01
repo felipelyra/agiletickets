@@ -2,19 +2,26 @@ package br.com.caelum.agiletickets.controllers;
 
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertNull;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
+
+import org.joda.time.LocalDate;
+import org.joda.time.LocalTime;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
+import antlr.collections.List;
 import br.com.caelum.agiletickets.domain.Agenda;
 import br.com.caelum.agiletickets.domain.DiretorioDeEstabelecimentos;
 import br.com.caelum.agiletickets.models.Espetaculo;
+import br.com.caelum.agiletickets.models.Periodicidade;
 import br.com.caelum.agiletickets.models.Sessao;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.Validator;
@@ -109,4 +116,35 @@ public class EspetaculosControllerTest {
 
 		assertThat(sessao.getIngressosDisponiveis(), is(2));
 	}
+	
+	@Test
+	public void naoDeveCadastrarSessaoSeInicioIgualFim() throws Exception {
+		Espetaculo espetaculo = new Espetaculo(); //agenda.espetaculo(2L);
+		
+		LocalDate dataIgual = new LocalDate(2011, 8, 30);
+		LocalTime horario = new LocalTime(12,00,00);
+		
+		//List retornoCriaSessao = espetaculo.criaSessoes(dataIgual, dataIgual, horario, Periodicidade.DIARIA);
+		assertNull(espetaculo.criaSessoes(dataIgual, dataIgual, horario, Periodicidade.DIARIA));
+	}
+	
+	@Test
+	public void naoDeveCadastrarSessaoSeDataInicioMaiorQueDataFim() throws Exception {
+		Espetaculo espetaculo = new Espetaculo(); //agenda.espetaculo(2L);
+		
+		LocalDate dataInicio = new LocalDate(2011, 8, 31);
+		LocalDate dataFim = new LocalDate(2011, 8, 30);
+		LocalTime horario = new LocalTime(12,00,00);
+		
+		//List retornoCriaSessao = espetaculo.criaSessoes(dataIgual, dataIgual, horario, Periodicidade.DIARIA);
+		assertNull(espetaculo.criaSessoes(dataInicio, dataFim, horario, Periodicidade.DIARIA));
+	}
+	
+	//@Test
+	/*public void deveCriarSessao() throws Exception {
+		Espetaculo espetaculo = new Espetaculo();
+		espetaculo.criaSessoes('30/08/2011', '30/08/2011', '20:00', periodicidade);
+		
+		
+	}*/
 }

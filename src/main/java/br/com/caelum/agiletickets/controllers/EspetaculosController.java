@@ -39,7 +39,7 @@ public class EspetaculosController {
 	}
 
 	@Get @Path("/espetaculos")
-	public List<Espetaculo> listaEspetaculos() {
+	public List<Espetaculo> lista() {
 		result.include("estabelecimentos", estabelecimentos.todos());
 		return agenda.espetaculos();
 	}
@@ -48,10 +48,10 @@ public class EspetaculosController {
 	public void adicionaEspetaculo(Espetaculo espetaculo) {
 		validaNomeEspetaculo(espetaculo);
 		validaDescricaoEspetaculo(espetaculo);
-		validator.onErrorRedirectTo(this).listaEspetaculos();
+		validator.onErrorRedirectTo(this).lista();
 		
 		agenda.cadastra(espetaculo);
-		result.redirectTo(this).listaEspetaculos();
+		result.redirectTo(this).lista();
 	}
 
 	private void validaDescricaoEspetaculo(Espetaculo espetaculo) {
@@ -80,11 +80,7 @@ public class EspetaculosController {
 		Sessao sessao = agenda.sessao(sessaoId);
 		existeSessao(sessao);
 		
-		validaQuantidadeRequisitada(quantidade);
-
-		if (!sessao.podeReservar(quantidade)) {
-			validator.add(new ValidationMessage("Não existem ingressos disponíveis", ""));
-		}
+		validaQuantidadeRequisitadaNaSessao(quantidade, sessao);
 
 		validator.onErrorRedirectTo(this).sessao(sessao.getId());
 
@@ -94,9 +90,12 @@ public class EspetaculosController {
 		result.redirectTo(IndexController.class).index();
 	}
 
-	private void validaQuantidadeRequisitada(final Integer quantidade) {
+	private void validaQuantidadeRequisitadaNaSessao(final Integer quantidade, Sessao sessao) {
 		if (quantidade < 1) {
 			validator.add(new ValidationMessage("Você deve escolher um lugar ou mais", ""));
+		}
+		if (!sessao.podeReservar(quantidade)) {
+			validator.add(new ValidationMessage("Não existem ingressos disponíveis", ""));
 		}
 	}
 
@@ -123,7 +122,7 @@ public class EspetaculosController {
 		agenda.agende(sessoes);
 
 		result.include("message", sessoes.size() + " sessoes criadas com sucesso");
-		result.redirectTo(this).listaEspetaculos();
+		result.redirectTo(this).lista();
 	}
 
 	private Espetaculo carregaEspetaculo(Long espetaculoId) {
