@@ -1,5 +1,7 @@
 package br.com.caelum.agiletickets.controllers;
 
+import static org.hamcrest.Matchers.*;
+import static org.hamcrest.MatcherAssert.*;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertNull;
@@ -162,9 +164,8 @@ public class EspetaculosControllerTest {
 		
 		List<Sessao> sessoesCriadas = espetaculo.criaSessoes(dataInicio, dataFim, horario,  Periodicidade.DIARIA);
  		
-		//assertThat(sessoesCriadas<0>.dataInicio, is());
+		assertThat(sessoesCriadas.equals(dataInicio), not(true));
 		
-		assertThat(sessoesCriadas.size(), is(2));
 	}
 	
 }
