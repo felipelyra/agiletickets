@@ -94,17 +94,21 @@ public class Espetaculo {
 		}
 		
 		
-		ArrayList<Sessao> listaDeSessoes = new ArrayList<Sessao>();
+		List<Sessao> listaDeSessoes = new ArrayList<Sessao>();
 		
-		for (int i = 0; i < numeroTotalEspetaculos; i++) {
+		for (int i = 0; i <= numeroTotalEspetaculos; i++) {
+			//LocalDate data = inicio + i;
+			
+			
 			Sessao sessao = new Sessao();
 			sessao.setEspetaculo(this);
 			sessao.setDuracaoEmMinutos(60);
 			sessao.setInicio(inicio.toDateTime(horario));
 			sessao.setTotalIngressos(100);
+			listaDeSessoes.add(sessao);
 		}
 			
-		return new ArrayList<Sessao>();
+		return listaDeSessoes;
 	}
 	
 	public boolean verificaDatasDeSessao (LocalDate inicio, LocalDate fim){

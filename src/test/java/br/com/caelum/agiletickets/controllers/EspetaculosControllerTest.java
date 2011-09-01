@@ -17,7 +17,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.Spy;
 
-import antlr.collections.List;
+//import antlr.collections.List;
 import br.com.caelum.agiletickets.domain.Agenda;
 import br.com.caelum.agiletickets.domain.DiretorioDeEstabelecimentos;
 import br.com.caelum.agiletickets.models.Espetaculo;
@@ -28,6 +28,7 @@ import br.com.caelum.vraptor.Validator;
 import br.com.caelum.vraptor.util.test.MockResult;
 import br.com.caelum.vraptor.util.test.MockValidator;
 import br.com.caelum.vraptor.validator.ValidationException;
+import java.util.List;
 
 public class EspetaculosControllerTest {
 
@@ -140,11 +141,30 @@ public class EspetaculosControllerTest {
 		assertNull(espetaculo.criaSessoes(dataInicio, dataFim, horario, Periodicidade.DIARIA));
 	}
 	
-	//@Test
-	/*public void deveCriarSessao() throws Exception {
+	@Test
+	public void deveCasdastrarDuasSessoes() throws Exception {
 		Espetaculo espetaculo = new Espetaculo();
-		espetaculo.criaSessoes('30/08/2011', '30/08/2011', '20:00', periodicidade);
+		LocalDate dataInicio = new LocalDate(2011, 9, 10);
+		LocalDate dataFim = new LocalDate(2011, 9, 11);
+		LocalTime horario = new LocalTime(12,00,00);
 		
+		List<Sessao> sessoesCriadas = espetaculo.criaSessoes(dataInicio, dataFim, horario,  Periodicidade.DIARIA);
+ 		
+		assertThat(sessoesCriadas.size(), is(2));
+	}
+	
+	@Test
+	public void deveCasdastrarDuasSessoesComInicioDiferente() throws Exception {
+		Espetaculo espetaculo = new Espetaculo();
+		LocalDate dataInicio = new LocalDate(2011, 9, 10);
+		LocalDate dataFim = new LocalDate(2011, 9, 11);
+		LocalTime horario = new LocalTime(12,00,00);
 		
-	}*/
+		List<Sessao> sessoesCriadas = espetaculo.criaSessoes(dataInicio, dataFim, horario,  Periodicidade.DIARIA);
+ 		
+		//assertThat(sessoesCriadas<0>.dataInicio, is());
+		
+		assertThat(sessoesCriadas.size(), is(2));
+	}
+	
 }
