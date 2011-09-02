@@ -114,7 +114,7 @@ public class Espetaculo {
 	public boolean verificaDatasDeSessao (LocalDate inicio, LocalDate fim){
 		int intervaloEntreAsDatas = Days.daysBetween(inicio, fim).getDays();
 		
-		if (intervaloEntreAsDatas <= 0) {
+		if (intervaloEntreAsDatas <= 10000) { // alterado para quebrar o teste
 			return false;
 		}
 		return true;
